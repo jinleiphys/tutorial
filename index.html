@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vibe Research with Claude Code · 交互式入门</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">Vibe Research <span class="brand-dot">·</span> with Claude Code</a>
+    <div class="nav-links">
+      <a href="#hero">对照</a>
+      <a href="#philosophy">瓶颈</a>
+      <a href="#paradigm">范式</a>
+      <a href="#codex">Codex</a>
+      <a href="#workflow">流程</a>
+      <a href="#validation">验证</a>
+      <a href="#terminal">演示</a>
+      <a href="#production">集群</a>
+      <a href="#failure">陷阱</a>
+      <a href="#skills">武器库</a>
+      <a href="#paperflow">写作</a>
+      <a href="#cookbook">Prompt 模板</a>
+      <a href="#session">启动</a>
+      <a href="#checklist">自检</a>
+    </div>
+  </div>
+</nav>
+
+<a id="top"></a>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero" class="section section-hero">
+  <div class="container hero-stack">
+    <div class="hero-copy">
+      <div class="eyebrow">A personal protocol from low-energy nuclear theory</div>
+      <h1 class="hero-title">
+        把物理之外的一切交给 AI<br/>
+        把省下的时间用来做更多的物理
+      </h1>
+      <p class="hero-sub">
+        下面这两个数字来自同一个导师、同一套物理、同一类问题。变量只有一个：谁在写代码。
+      </p>
+    </div>
+
+    <div class="comparison">
+      <div class="card card-red">
+        <div class="card-tag">2024 · 同济保研博士生 + GPT-4 网页版</div>
+        <div class="card-num"><span id="hero-old">90</span><span class="unit">天</span></div>
+        <div class="card-meta">单通道散射 emulator · 1 channel · 少量参数</div>
+        <div class="card-cite">Liu, Jin Lei, Ren · Phys. Lett. B 858, 139070 (2024)</div>
+      </div>
+      <div class="vs">vs</div>
+      <div class="card card-blue">
+        <div class="card-tag">2025-12 · 我 + Claude Code CLI</div>
+        <div class="card-num"><span id="hero-new">90</span><span class="unit">天</span></div>
+        <div class="card-meta">CDCC reduced-basis emulator · 37 channels · 18 parameters</div>
+        <div class="card-cite">Jin Lei · Phys. Rev. C 113, 044610 (2026)</div>
+      </div>
+    </div>
+
+    <div class="hero-callout">
+      复杂度 ×10，时间 ÷20。等效加速 ≈ 200×。
+      <br><span class="dim">这不是因为我变聪明了。是工作流变了。</span>
+    </div>
+
+    <figure class="paper-visual">
+      <img src="assets/paper-timeline.png" alt="四个月内多篇论文产出的可视化时间线" loading="lazy">
+    </figure>
+
+    <div class="papers-strip" aria-label="16 papers in 4 months">
+      <div class="papers-strip-label">2025-12 → 2026-04 · 4 个月 16 篇</div>
+      <div class="papers-strip-track" id="papers-track"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PHILOSOPHY ===================== -->
+<section id="philosophy" class="section">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Why this works</div>
+        <h2>计算物理的 80/20</h2>
+        <p class="lede">
+          一个项目的智力内核（一个想法、一个算法、一个数值不稳定的来源）通常在几天到几周内结晶。
+          把它变成一篇发表论文，要花几个月到几年。
+          传统流程里，<strong>implementation overhead</strong> 占据绝大部分时间。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/implementation-bottleneck.png" alt="implementation overhead 与物理判断之间的工作流转移插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="narrow-block">
+      <div class="bar-widget">
+      <div class="bar-track">
+        <div class="bar-impl" id="bar-impl"></div>
+        <div class="bar-physics" id="bar-physics"></div>
+      </div>
+      <div class="bar-labels">
+        <span><span class="dot dot-red"></span> Implementation overhead <strong id="bar-impl-pct">80%</strong></span>
+        <span><span class="dot dot-blue"></span> 智力内核（物理判断）<strong id="bar-phys-pct">20%</strong></span>
+      </div>
+      <input type="range" id="bar-slider" min="20" max="95" value="80" step="1" />
+      <div class="bar-help">拖动滑块：看 implementation 占比如何改变你能独立推进的深度项目容量</div>
+
+      <div class="bar-output">
+        <div>代表性论文 / 深度项目<sup>*</sup>：约 <strong id="lifetime-papers">50</strong> 篇</div>
+        <div class="bar-output-sub" id="bar-comparison">这是主导型产出的粗略量级，不是署名总数。</div>
+      </div>
+      <div class="footnote">
+        * 粗略假设 35 年 × 54 周 × 40 小时 = 75600 小时；
+        一篇代表性论文 / 一个成熟项目中不可外包的物理判断、验证和论文取舍约 300 小时。
+        这里估算的是主导型产出的量级，不是合作署名论文总数。
+      </div>
+      </div>
+
+      <div class="callout callout-idea">
+        <strong>Vibe Research = 人的判断力 × LLM 实现速度。</strong>
+        问题选择、物理判断、数值直觉、结果解释、最终筛选 — 这些不可外包。
+        文献综合、样板代码、算法实现、debug、图表、初稿、审稿回复 — 这些可以加速一到两个数量级。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PARADIGM ===================== -->
+<section id="paradigm" class="section section-alt">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">New paradigm</div>
+        <h2>什么是 Vibe Coding</h2>
+        <p class="lede">
+          传统编程的核心动作是“人把意图翻译成代码”。Vibe Coding 的核心动作变成：
+          人用自然语言、运行结果和反馈来驱动 AI 生成代码，再用测试和判断筛选结果。
+          也就是说，人从逐行施工者，变成了目标设定者、审稿人和系统导演。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/vibe-coding-paradigm.png" alt="传统编程和 Vibe Coding 两种工作流的对照插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="paradigm-comparison">
+      <article class="paradigm-card">
+        <img src="assets/traditional-programming-loop.png" alt="传统编程循环插图" loading="lazy">
+        <div class="paradigm-card-body">
+          <div class="eyebrow">Old loop</div>
+          <h3>传统编程</h3>
+          <p>人先把问题拆成架构、接口、算法和边界条件，然后手写实现、手动 debug、手动补测试。速度主要受“打字 + 查 API + 重构 + 细节记忆”限制。</p>
+          <ul>
+            <li>优势：控制精确、路径透明、可预测。</li>
+            <li>瓶颈：大量时间花在重复实现和样板细节上。</li>
+            <li>适合：高风险底层系统、需要完全可控的核心模块。</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="paradigm-card">
+        <img src="assets/vibe-coding-loop.png" alt="Vibe Coding 循环插图" loading="lazy">
+        <div class="paradigm-card-body">
+          <div class="eyebrow">New loop</div>
+          <h3>Vibe Coding</h3>
+          <p>人描述目标、约束和反馈，AI 快速生成实现。人的主要工作不是替 AI 写每一行，而是不断判断输出是否满足真实目标，并把系统拉回正确方向。</p>
+          <ul>
+            <li>优势：原型、重构、接口胶水和调试速度极快。</li>
+            <li>风险：AI 会自信地写出“看起来合理”的错。</li>
+            <li>适合：快速探索、工具开发、复杂工程的非核心摩擦层。</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <div class="section-grid paradigm-definition">
+      <div>
+        <div class="eyebrow">From coding to research</div>
+        <h2>什么是 Vibe Research</h2>
+        <p class="lede">
+          Vibe Research 不是“让 AI 做科研”。它是把 Vibe Coding 的速度引入科研流程，
+          但把问题选择、物理判断、验证标准、claim 边界和最终责任牢牢留在人这里。
+          AI 负责把人的判断快速变成代码、图、诊断、文献表和论文草稿；人负责判断这些东西是否真的构成物理。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/vibe-research-loop.png" alt="Vibe Research 中人类判断、AI 实现、验证和论文输出的循环插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="principle-grid">
+      <div class="principle-card">
+        <span>01</span>
+        <h3>人定义问题</h3>
+        <p>什么问题值得做、哪个近似可接受、哪个 observable 能证明观点，这些不能外包。</p>
+      </div>
+      <div class="principle-card">
+        <span>02</span>
+        <h3>AI 扩展手脚</h3>
+        <p>代码实现、脚本、图表、文献整理、初稿和审稿回复，是 AI 最适合加速的摩擦层。</p>
+      </div>
+      <div class="principle-card">
+        <span>03</span>
+        <h3>验证成为主线</h3>
+        <p>速度越快，越要把 benchmark、守恒律、单位、边界条件和 worst case 放在主流程里。</p>
+      </div>
+      <div class="principle-card">
+        <span>04</span>
+        <h3>结论必须收口</h3>
+        <p>AI 可以写得漂亮，但 claim 的强度必须由证据决定。过度外推会毁掉可信度。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CODEX VS CLAUDE CODE ===================== -->
+<section id="codex" class="section">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Tool choice</div>
+        <h2>Claude Code 和 Codex 怎么选</h2>
+        <p class="lede">
+          这两个工具不是谁替代谁，而是适合不同形态的工作。Claude Code 更像一个贴着 Claude 生态的终端研究助手；
+          Codex 更像 OpenAI 生态里的工程 agent 平台，尤其适合并行 coding、页面构建和需要图像生成的工作流。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/vibe-coding-paradigm.png" alt="Claude Code 和 Codex 两类 AI coding agent 的工作流对照插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="tool-compare">
+      <article class="tool-card tool-card-claude">
+        <div class="tool-label">Claude Code</div>
+        <h3>更像“文档 + 代码”的研究助手</h3>
+        <p>
+          适合把长文档、PDF、代码库和科研上下文放在同一个会话里推进。对研究者来说，它的强项是读材料、
+          追上下文、按你的物理判断写代码和改论文相关文件。
+        </p>
+        <ul>
+          <li><strong>优势：</strong>Claude 生态对 PDF 支持好，适合直接分析论文、报告、图表和长文档。</li>
+          <li><strong>优势：</strong>长上下文阅读和解释能力强，适合从文献、代码、草稿之间来回穿梭。</li>
+          <li><strong>短板：</strong>默认不是图像生成工具；要做 T2I 插图通常需要外接 API、脚本或别的工具。</li>
+          <li><strong>短板：</strong>偏单会话研究助理；大规模并行 agent / 云端 worktree 不是它最自然的形态。</li>
+        </ul>
+      </article>
+
+      <article class="tool-card tool-card-codex">
+        <div class="tool-label">Codex</div>
+        <h3>更像“工程 + 多模态资产”的 agent 平台</h3>
+        <p>
+          适合构建页面、改代码、跑测试、并行拆任务，以及把 OpenAI 的工具能力接入工程流程。这个页面里的大量插图，
+          就是通过 Codex 环境调用 T2I 生成后落到项目资产里的。
+        </p>
+        <ul>
+          <li><strong>优势：</strong>适合工程化任务：改文件、跑命令、生成补丁、做页面和 app。</li>
+          <li><strong>优势：</strong>在支持工具的环境里可以调用 T2I / imagegen，直接为网站生成插图资产。</li>
+          <li><strong>优势：</strong>Codex 平台强调多 agent、云端环境、并行任务和团队工程流程。</li>
+          <li><strong>短板：</strong>PDF 不是它最直接的输入形态；通常要先转成 Markdown、文本、截图或图片序列再处理。</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="decision-table">
+      <div class="decision-row decision-head">
+        <span>任务</span>
+        <span>更顺手的选择</span>
+        <span>原因</span>
+      </div>
+      <div class="decision-row">
+        <span>直接读论文 PDF、报告、带图表的长文档</span>
+        <span>Claude Code</span>
+        <span>Claude 对 PDF 文本、图片、图表和表格理解支持更直接。</span>
+      </div>
+      <div class="decision-row">
+        <span>把 PDF 文献整理成项目知识库</span>
+        <span>Claude Code 起步，Codex 工程化</span>
+        <span>Claude 读 PDF；Codex 适合把结果转成脚本、数据库、网页或 RAG 管线。</span>
+      </div>
+      <div class="decision-row">
+        <span>做网页、交互式教程、UI、图像资产</span>
+        <span>Codex</span>
+        <span>能同时改 HTML/CSS/JS、跑浏览器检查，并在当前环境里生成 T2I 插图。</span>
+      </div>
+      <div class="decision-row">
+        <span>大型代码库理解、局部 bug 修复、单会话研究推进</span>
+        <span>两者都可用</span>
+        <span>Claude Code 更偏研究上下文；Codex 更偏工程补丁、测试和多任务拆分。</span>
+      </div>
+      <div class="decision-row">
+        <span>多个独立任务并行推进</span>
+        <span>Codex</span>
+        <span>Codex 平台更强调多 agent、云端工作区和并行工程任务。</span>
+      </div>
+    </div>
+
+    <div class="callout callout-idea">
+      <strong>我的建议：</strong>
+      文献 / PDF / 研究草稿先用 Claude Code 把上下文吃透；页面、图像、工程化脚本、多 agent 并行任务交给 Codex。
+      Vibe Research 的关键不是迷信某个工具，而是把每个工具放到它最擅长的位置。
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORKFLOW ===================== -->
+<section id="workflow" class="section">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Operating system</div>
+        <h2>一个项目怎么被推进</h2>
+        <p class="lede">
+          Vibe Research 不是把问题扔给 AI，然后等论文掉出来。它更像一个研究操作系统：
+          每一步都明确谁负责、停在哪个 checkpoint、什么结果必须由人来判定。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/workflow-operating-system.png" alt="AI 辅助科研项目从想法到论文的工作流插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="mini-dashboard" aria-label="workflow summary">
+      <div class="mini-metric">
+        <span>Human</span>
+        <strong>判断 / 取舍 / 负责</strong>
+      </div>
+      <div class="mini-metric">
+        <span>Claude</span>
+        <strong>实现 / 诊断 / 整理</strong>
+      </div>
+      <div class="mini-metric">
+        <span>Checkpoint</span>
+        <strong>每 30-90 分钟一次</strong>
+      </div>
+    </div>
+
+    <div class="workflow-board" id="workflow-board"></div>
+  </div>
+</section>
+
+<!-- ===================== VALIDATION ===================== -->
+<section id="validation" class="section section-alt">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Validation lab</div>
+        <h2>不要相信输出，相信验证链</h2>
+        <p class="lede">
+          AI 写出来的代码越快，验证链越要硬。每个研究项目都应该有一张小的 validation matrix：
+          它不追求覆盖所有情况，而是覆盖最容易让物理出错的地方。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/validation-regression.png" alt="计算物理验证矩阵和 regression tests 插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="validation-grid" id="validation-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== TERMINAL ===================== -->
+<section id="terminal" class="section section-terminal">
+  <div class="container">
+    <div class="eyebrow">Live demo</div>
+    <h2>三段真实案例的录播</h2>
+    <p class="lede">
+      下面是三段从 ahu-talk 的两个 PRC 项目里抽出来的会话脚本，我把它做成可逐步播放的伪终端。
+      关键节点会跳出 <strong>Expert Filter</strong> 提醒，需要你点确认才继续 — 这正是真实研究中你应该做的。
+    </p>
+
+    <div class="visual-pair">
+      <figure class="section-visual">
+        <img src="assets/terminal-debug-demo.png" alt="AI 终端调试计算物理求解器的插图" loading="lazy">
+      </figure>
+      <figure class="section-visual">
+        <img src="assets/reduced-basis-emulator.png" alt="高保真求解器压缩为 reduced-basis emulator 的插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="demo-tabs" id="demo-tabs"></div>
+
+    <div class="terminal-shell">
+      <div class="terminal-titlebar">
+        <span class="dot d-red"></span><span class="dot d-yel"></span><span class="dot d-grn"></span>
+        <span class="terminal-title" id="terminal-title">claude — ~/Desktop/code/dbmm</span>
+      </div>
+      <div class="terminal-body" id="terminal-body" tabindex="0"></div>
+      <div class="terminal-controls">
+        <button class="ctrl" id="ctrl-prev" title="上一步">⟨ Prev</button>
+        <button class="ctrl ctrl-primary" id="ctrl-play" title="播放 / 暂停">▶ Play</button>
+        <button class="ctrl" id="ctrl-next" title="下一步">Next ⟩</button>
+        <button class="ctrl" id="ctrl-reset" title="重置">↻ Reset</button>
+        <span class="ctrl-progress" id="ctrl-progress">0 / 0</span>
+        <span class="ctrl-speed">
+          速度
+          <select id="ctrl-speed">
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+            <option value="4">4×</option>
+          </select>
+        </span>
+      </div>
+    </div>
+
+    <div class="demo-summary" id="demo-summary"></div>
+  </div>
+</section>
+
+<!-- ===================== PRODUCTION ===================== -->
+<section id="production" class="section">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Production runs</div>
+        <h2>从本地最小例子到集群生产</h2>
+        <p class="lede">
+          真正省时间的地方不只是写代码，而是把本地验证、HPC 调度、诊断图、误差预算和论文图表变成连续管线。
+          这部分适合让 Claude 做大量机械工作，但每个阶段都要留下可复现证据。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/hpc-production-pipeline.png" alt="本地代码到 HPC 集群再回到诊断图的生产管线插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="production-grid" id="production-grid"></div>
+    <div class="production-brief" id="production-brief"></div>
+  </div>
+</section>
+
+<!-- ===================== FAILURE MODES ===================== -->
+<section id="failure" class="section section-alt">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Failure modes</div>
+        <h2>最容易把人骗过去的错</h2>
+        <p class="lede">
+          LLM 最危险的地方不是报错，而是把错误写得很顺。下面这些模式都适合做成项目里的
+          regression test 或 review checklist。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/human-review-gate.png" alt="人类专家检查 AI 生成代码、公式、图表和引用的 checkpoint 插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="failure-panel">
+      <div class="failure-tabs" id="failure-tabs"></div>
+      <div class="failure-detail" id="failure-detail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SKILL GALLERY ===================== -->
+<section id="skills" class="section">
+  <div class="container">
+    <div class="eyebrow">Your weapons</div>
+    <h2>武器库 · ~/.claude/skills</h2>
+    <p class="lede">
+      Skill 是带触发词的"封装好的工作流"。在 Claude Code 里输入 <code>/skill-name</code> 或者命中触发词时自动加载。
+      点击卡片复制调用样例。
+    </p>
+
+    <figure class="section-visual section-visual-wide">
+      <img src="assets/skills-toolkit.png" alt="AI research skills 工具库插图" loading="lazy">
+    </figure>
+
+    <div class="stage-tabs" id="stage-tabs"></div>
+    <div class="skill-grid" id="skill-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== PAPER FLOW ===================== -->
+<section id="paperflow" class="section section-alt">
+  <div class="container">
+    <div class="eyebrow">Paper pipeline</div>
+    <h2>从结果到论文，不要把 claim 写过头</h2>
+    <p class="lede">
+      写作阶段最该让 AI 加速的是结构化整理：文献证据、图表叙事、审稿意见回应。最不该交给它的是 claim 的边界。
+    </p>
+
+    <div class="visual-pair">
+      <figure class="section-visual">
+        <img src="assets/literature-verification.png" alt="文献检索、引用核查和 claim-evidence 对照插图" loading="lazy">
+      </figure>
+      <figure class="section-visual">
+        <img src="assets/paper-storyline.png" alt="把物理结果组织成论文叙事的插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="paperflow-grid" id="paperflow-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== SESSION STARTER ===================== -->
+<section id="session" class="section">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Session protocol</div>
+        <h2>每次开 Claude 前先写 brief</h2>
+        <p class="lede">
+          好的会话不是从“帮我看看”开始，而是从边界条件开始：今天的目标、允许它改什么、
+          禁止它自作主张什么、什么时候必须停下来等你审。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/prompt-cookbook.png" alt="研究会话 brief 转化为执行计划的插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="session-grid" id="session-grid"></div>
+    <div class="launch-brief" id="launch-brief"></div>
+  </div>
+</section>
+
+<!-- ===================== COOKBOOK ===================== -->
+<section id="cookbook" class="section section-alt">
+  <div class="container">
+    <div class="eyebrow">Prompt cookbook</div>
+    <h2>可复制的模板</h2>
+    <p class="lede">
+      这些是我常用的 prompt 骨架。复制下来，把尖括号里的占位符换成你的内容，再粘到 Claude Code 里。
+    </p>
+    <figure class="section-visual section-visual-wide">
+      <img src="assets/prompt-cookbook.png" alt="Prompt 模板转化为代码、图表和论文初稿的插图" loading="lazy">
+    </figure>
+    <div class="cookbook" id="cookbook-items"></div>
+  </div>
+</section>
+
+<!-- ===================== CHECKLIST ===================== -->
+<section id="checklist" class="section">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Before you start</div>
+        <h2>Expert Filter 自检</h2>
+        <p class="lede">
+          Vibe Research 的反直觉推论：LLM 不是民主化研究，是放大专家优势。
+          没有 Expert Filter 的人照搬这套流程，会高速产出错的物理。
+          下面 8 条你都能诚实勾选时，再开始。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/expert-filter.png" alt="专家检查 AI 生成的计算物理结果的插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="narrow-block">
+      <div class="checklist" id="checklist-items"></div>
+
+      <div class="checklist-cta">
+        <button class="cta" id="cta" disabled>开始你的 Vibe Research →</button>
+        <div class="cta-hint" id="cta-hint">还差 <span id="cta-remaining">8</span> 条。</div>
+      </div>
+
+      <div class="footnote disclaimer">
+        ⚠ 免责声明：本指南的内容如果被没有 Expert Filter 的人照搬，大概率会毁掉整个科研生涯。
+        建议尚不具备独立科研能力的低年级研究生先把基本功练扎实再回来。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div>© 2026 Jin Lei. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- toast -->
+<div class="toast" id="toast">已复制</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
