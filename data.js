@@ -269,7 +269,7 @@ const DEMOS = [
       {
         kind: 'output',
         text:
-          '草稿要点：(1) 引 Furnstahl 2020 EC 开篇；(2) 引 Liu, Lei, Ren 2024 PLB 自我延续；(3) 把 Catacora-Rios 2025 和 Liao 2025 作为同期工作并列对比，强调通道数和参数维度。'
+          '草稿要点：(1) 引 Furnstahl 2020 EC 开篇；(2) 引 Liu, Jin Lei, Ren 2024 PLB 自我延续；(3) 把 Catacora-Rios 2025 和 Liao 2025 作为同期工作并列对比，强调通道数和参数维度。'
       },
       {
         kind: 'tool',

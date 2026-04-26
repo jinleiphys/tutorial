@@ -71,6 +71,7 @@
       if (started) return;
       started = true;
       animateNumber(oldEl, 90, 90, 600); // 左卡停在 90 天
+      newEl.textContent = '90';
       animateNumber(newEl, 90, 4, 1800); // 右卡从 90 倒数到 4
     };
 
