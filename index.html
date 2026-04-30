@@ -32,6 +32,7 @@
       <a href="#philosophy">瓶颈</a>
       <a href="#paradigm">范式</a>
       <a href="#codex">Codex</a>
+      <a href="#onramp">入门</a>
       <a href="#workflow">流程</a>
       <a href="#validation">验证</a>
       <a href="#terminal">演示</a>
@@ -319,6 +320,180 @@
       <strong>我的建议：</strong>
       文献 / PDF / 研究草稿先用 Claude Code 把上下文吃透；页面、图像、工程化脚本、多 agent 并行任务交给 Codex。
       Vibe Research 的关键不是迷信某个工具，而是把每个工具放到它最擅长的位置。
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESEARCH ONRAMP ===================== -->
+<section id="onramp" class="section section-alt">
+  <div class="container">
+    <div class="section-grid">
+      <div>
+        <div class="eyebrow">Execution partner</div>
+        <h2>把模糊研究想法变成可执行任务</h2>
+        <p class="lede">
+          在 Vibe Research 里，Claude Code 不是聊天窗口，而是研究执行伙伴。
+          真正的门槛不是会不会从零写代码，而是能不能把物理问题、边界条件、数据输入、验证标准和停止规则写清楚。
+          只有任务可执行，结果才可验收。
+        </p>
+      </div>
+      <figure class="section-visual">
+        <img src="assets/research-onramp-brief.webp" alt="把模糊物理想法转成可执行研究 brief 的工作流插图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="onramp-grid">
+      <article class="onramp-card">
+        <div class="onramp-index">01</div>
+        <h3>先让终端成为实验台</h3>
+        <p>会 <code>cd</code> 到项目目录、启动 <code>claude</code>、让它读文件、跑脚本、看日志和错误。科研 agent 的价值，首先来自它能直接接触真实项目状态。</p>
+      </article>
+      <article class="onramp-card">
+        <div class="onramp-index">02</div>
+        <h3>补一层工程常识</h3>
+        <p>Git、环境、依赖、测试、日志、脚本入口和数据路径要能大概看懂。你不必手写每行代码，但必须能判断 agent 正在动哪里、为什么动。</p>
+      </article>
+      <article class="onramp-card">
+        <div class="onramp-index">03</div>
+        <h3>研究需求要像实验方案</h3>
+        <p>写清 central claim、模型、参数范围、not in scope、benchmark、worst case 和误差预算。不要把 <code>TBD</code> 留给 agent，它会用猜测补空白。</p>
+      </article>
+      <article class="onramp-card">
+        <div class="onramp-index">04</div>
+        <h3>完成 = 验证链通过</h3>
+        <p>看三件事：命令是否通过、结果图和数值是否亲眼检查、验收清单是否逐条满足。出错时先命名 root cause，再允许改代码。</p>
+      </article>
+    </div>
+
+    <div class="learning-ladder">
+      <div class="ladder-head">
+        <div>
+          <div class="eyebrow">Research tool for one</div>
+          <h3>从一个脚本到一个研究工具</h3>
+        </div>
+        <p>
+          不要一上来要求它重写整个求解器。先让它改一个你手边已有的文件，再把一个重复分析动作固化下来。
+          最后形成只服务这个物理问题的诊断工具、批处理管线或 reduced-basis 原型。
+        </p>
+      </div>
+      <div class="ladder-steps" aria-label="AI coding onboarding ladder">
+        <div><span>Day 1</span><strong>整理一个现成结果</strong><p>清洗 CSV、改配置、补 README、重画一张图。</p></div>
+        <div><span>Week 1</span><strong>做一个诊断页面</strong><p>把 residual、runtime、误差分布放到同一页。</p></div>
+        <div><span>Month 1</span><strong>固化一个分析管线</strong><p>从输入参数到图表、日志和 summary 自动跑通。</p></div>
+        <div><span>Month 3</span><strong>做一个研究工具</strong><p>为一个真实物理问题沉淀 solver、emulator 或 audit 工具。</p></div>
+      </div>
+      <figure class="section-visual onramp-wide-visual">
+        <img src="assets/research-tool-ladder.webp" alt="从单个研究脚本发展成诊断面板、自动管线和研究工具的路径图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="practice-map">
+      <div class="practice-head">
+        <div>
+          <div class="eyebrow">Claude Code protocol</div>
+          <h3>把官方实践翻译成科研协议</h3>
+        </div>
+        <p>
+          官方文档的核心可以压成几条研究规则：让 Claude 有办法验证自己的工作，先探索再计划，给具体上下文，主动管理 context。
+          在 Vibe Research 里，这些规则对应到 benchmark、诊断图、项目说明书、会话切分和子任务隔离。
+          <a href="https://code.claude.com/docs/en/best-practices" target="_blank" rel="noopener">Claude Code Best Practices</a>
+        </p>
+      </div>
+
+      <div class="practice-grid">
+        <article>
+          <span>Verify</span>
+          <h4>先给验证链</h4>
+          <p>不要只说“实现这个方法”。同时给 benchmark、expected output、误差预算和测试命令，例如 Coulomb phase、unitarity 或 emulator worst-case 回跑。</p>
+        </article>
+        <article>
+          <span>Explore → Plan → Code</span>
+          <h4>先读，再计划，再动手</h4>
+          <p>复杂任务先进 Plan Mode：先读 Hamiltonian、配置、数据路径和旧 benchmark，再列修改文件和验证路径。跨模块改动必须先计划。</p>
+        </article>
+        <article>
+          <span>Context</span>
+          <h4>上下文要具体</h4>
+          <p>用 <code>@</code> 指文件，贴完整错误、config、图、日志和一小段数据。不要让 Claude 猜“哪个脚本”“哪张图”“哪条曲线”。</p>
+        </article>
+        <article>
+          <span>CLAUDE.md / Skills / Hooks</span>
+          <h4>规则分层放</h4>
+          <p>单位、相位、边界条件进 <code>CLAUDE.md</code>；领域流程做成 skill；“无 benchmark 不许生产运行”这类硬规则交给 hook。</p>
+        </article>
+        <article>
+          <span>Session</span>
+          <h4>主动清理 context</h4>
+          <p>无关任务之间用 <code>/clear</code>。连续两次纠偏还错，就重开会话，把学到的限制写进新 brief。长任务结束前写 handoff。</p>
+        </article>
+        <article>
+          <span>Scale</span>
+          <h4>大任务要隔离</h4>
+          <p>调查类任务用 subagent；批量扫参数、分波或核素时用 <code>claude -p</code>、多会话或 fan-out，但必须限制工具权限和写入范围。</p>
+        </article>
+      </div>
+
+      <div class="practice-failures">
+        <strong>看到这些就停：</strong>
+        <span>一个会话塞进多个无关任务</span>
+        <span>同一问题反复纠偏超过两次</span>
+        <span><code>CLAUDE.md</code> 写成长教程</span>
+        <span>结果看似合理但没有验证</span>
+        <span>无范围地“帮我调查一下”</span>
+      </div>
+
+      <figure class="section-visual onramp-wide-visual">
+        <img src="assets/claude-research-protocol.webp" alt="Claude Code 官方实践映射到科研验证协议的六格图" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="research-example">
+      <figure class="section-visual">
+        <img src="assets/emulator-boundary-brief.webp" alt="Reduced-basis emulator 参数空间边界压力测试示例图" loading="lazy">
+      </figure>
+      <div class="example-copy">
+        <div class="eyebrow">Concrete brief</div>
+        <h3>例子：检查 emulator 在参数空间边界是否失效</h3>
+        <p>
+          模糊说法是“帮我看看 emulator 稳不稳”。可执行说法必须把问题压成 claim、输入、benchmark、误差预算和停机条件。
+        </p>
+        <div class="example-brief">
+          <div><b>Claim</b><span>RB emulator 在 KD03 ±30% 边界仍能保持 σ_total 误差 &lt; 0.1%。</span></div>
+          <div><b>Input</b><span>5000 个 LHS 点 + 单独采样参数空间 2D/3D 边界面。</span></div>
+          <div><b>Benchmark</b><span>随机抽 top-10 worst cases 回跑 full CDCC，对照总截面和角分布。</span></div>
+          <div><b>Stop rule</b><span>若误差集中在某个边界方向，停止扩展，先诊断 basis 覆盖。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="onramp-system">
+      <article>
+        <h3><code>CLAUDE.md</code> 是研究说明书</h3>
+        <p>
+          它应该短、直接、可判断：Hamiltonian、单位、相位约定、输入输出、禁止修改的边界、验证命令，
+          以及长会话压缩时必须保留的物理决策原因。
+        </p>
+      </article>
+      <article>
+        <h3>复杂任务先审物理路径</h3>
+        <p>
+          对大改动先看计划：改哪些文件、为什么改、影响范围是什么、会用哪个 benchmark 验证。
+          方向不对时，越早停越便宜。
+        </p>
+      </article>
+      <article>
+        <h3>Skill 是研究 SOP</h3>
+        <p>
+          把重复出现的好习惯封成技能：先规划、先验证、先定位根因、引用必须核查、claim 必须有证据。
+          <code>research-planning</code>、<code>debug-physics-first</code>、<code>prc-writing</code> 都是在固定这些路径。
+        </p>
+      </article>
+    </div>
+
+    <div class="callout callout-idea">
+      <strong>自洽地放进本页：</strong>
+      Vibe Research 不是降低研究门槛，而是把研究标准显式化。任务定义、物理约定、benchmark、守恒律、误差预算和 Expert Filter
+      写得越清楚，AI 执行越快，人也越能判断结果是否可信。
     </div>
   </div>
 </section>

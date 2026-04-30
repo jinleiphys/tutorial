@@ -431,6 +431,83 @@ const STAGES = [
 // ---------- 5. Prompt Cookbook ----------
 const COOKBOOK = [
   {
+    cat: '研究执行入口',
+    items: [
+      {
+        title: '把模糊研究想法压成可验证任务',
+        prompt:
+`我想用 Claude Code 推进一个研究任务：<一句话>。
+
+先不要写代码。请先把它整理成可执行研究 brief：
+1. central claim 是什么，如果成立说明什么
+2. 物理模型 / 方程 / observable 是什么
+3. 本轮 scope 是什么，明确列出 not in scope
+4. 输入数据从哪里来，输出结果长什么样
+5. benchmark、守恒律、解析极限或旧代码对照是什么
+6. 误差预算和通过标准是什么，尽量用数字表达
+7. 什么结果出现时必须停止，而不是继续扩展
+
+如果有 TBD，不要替我猜，列成需要我确认的问题。`
+      },
+      {
+        title: '生成研究版 CLAUDE.md',
+        prompt:
+`请先阅读当前项目结构，然后起草一个 CLAUDE.md。
+
+要求：
+- 控制在 150 行以内
+- 用祈使句写规则，不要写含糊偏好
+- 每条规则都必须可判断
+- 包含 Physics Conventions / Project Background / Working Rules / Don't Do / Verification / Preserve When Compacting
+- Physics Conventions 写清单位、相位、归一化、边界条件和参考值
+- Preserve When Compacting 里保留：物理决策及原因、改过哪些文件、当前进度、未完成 TODO
+
+先给草稿，不要改文件，等我确认后再写入。`
+      },
+      {
+        title: '先定位根因，再允许修改',
+        prompt:
+`现在出现了一个问题：
+<粘贴现象、错误日志、截图或不符合预期的输出>
+
+请先不要改代码。按下面顺序回答：
+1. 最可能的 root cause 是什么
+2. 具体在哪个文件 / 哪一行 / 哪个数据路径
+3. 为什么会导致这个现象
+4. 写一个最小诊断或复现实验
+5. 只有诊断证明后，再给修改方案
+
+如果你还不能命名 root cause，就继续读代码和日志，不要进入 try-this-try-that 循环。`
+      },
+      {
+        title: '按官方四步推进研究改动',
+        prompt:
+`请按 Explore → Plan → Implement → Lock 的方式推进这个研究任务：
+<任务描述>
+
+阶段 1 Explore：
+- 只读文件，不改代码
+- 总结当前实现、数据路径、验证脚本和已知风险
+
+阶段 2 Plan：
+- 列出要改哪些文件、为什么改、影响范围是什么
+- 写出 benchmark / 测试 / 图表验证方式
+- 等我确认后再继续
+
+阶段 3 Implement：
+- 每次只做一个小修改
+- 修改后立刻跑最小验证
+
+阶段 4 Lock：
+- 汇总通过和失败的验证
+- 记录最终配置、数据位置和下一步 TODO
+- 如果任务很长，写 HANDOFF.md
+
+现在先执行阶段 1，不要改文件。`
+      }
+    ]
+  },
+  {
     cat: '文献综述',
     items: [
       {
@@ -452,7 +529,7 @@ const COOKBOOK = [
 - 核心 claim 一句话
 - 关键 derivation 复述（用我能理解的符号）
 - 数值实验的 fair / unfair 之处
-- 我自己的 X 项目能不能借用其中的 idea Y`
+- 我自己的项目能不能借用其中的 idea Y`
       }
     ]
   },
@@ -828,7 +905,8 @@ const SESSION_PROTOCOL = [
     items: [
       '今天只做一个主目标',
       '列出允许修改的文件或目录',
-      '列出不能改变的物理约定'
+      '列出不能改变的物理约定',
+      '写清 not in scope 和可验收标准'
     ]
   },
   {
@@ -838,6 +916,7 @@ const SESSION_PROTOCOL = [
     items: [
       '先读代码和文档，再改',
       '每个修改后跑最小验证',
+      '每次改动前先说明将要做什么',
       '遇到物理不确定性就停'
     ]
   },
@@ -848,6 +927,7 @@ const SESSION_PROTOCOL = [
     items: [
       '记录通过和失败的测试',
       '把新诊断脚本纳入 TODO',
+      '长任务结束前写 HANDOFF.md',
       '下一次会话从明确 checkpoint 开始'
     ]
   }
@@ -865,13 +945,23 @@ const LAUNCH_BRIEF =
 - 允许改：<files or directories>
 - 不要改：<files or conventions>
 - 物理约定：<units, sign, normalization, boundary>
+- Not in scope：<本轮明确不做什么>
+
+验收：
+- 必须满足：<acceptance criteria with numbers when possible>
+- 验证方式：<commands / figures / manual checks>
+- 失败条件：<什么情况要停下来>
+
+安全：
+- 对不认识的命令先解释风险再执行
+- 不粘贴明文密钥；生产数据和生产配置先在 staging 验证
 
 执行方式：
 1. 先读相关文件，总结你看到的现状。
-2. 给一个短 plan，等我确认。
-3. 每次只做一个小修改。
-4. 每个修改后跑最小验证。
-5. 如果结果和物理预期冲突，停止并调用 debug-physics-first，不要继续堆代码。`;
+2. 给一个短 plan，列出会改哪些文件和为什么改，等我确认。
+3. 每次只做一个小修改，修改前用一句话说明要做什么。
+4. 每个修改后跑最小验证，并对照验收标准逐条检查。
+5. 如果结果和物理预期冲突，先命名 root cause；不能命名就停止并调用 debug-physics-first，不要继续堆代码。`;
 
 // ---------- 9. 验证矩阵 ----------
 const VALIDATION_SUITE = [
