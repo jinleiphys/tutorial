@@ -2579,3 +2579,341 @@ h2::after {
     min-height: auto;
   }
 }
+
+/* =============================================================
+   Editorial upgrade: tighter first screen, clearer entry path,
+   and claim-to-repro evidence chain.
+   ============================================================= */
+
+.nav-inner {
+  padding-top: 0.68rem;
+  padding-bottom: 0.68rem;
+}
+
+.nav-links {
+  gap: 1.25rem;
+  font-size: 0.78rem;
+}
+
+.section {
+  scroll-margin-top: 82px;
+}
+
+.section-kicker {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+  gap: clamp(1.4rem, 4vw, 3.5rem);
+  align-items: end;
+  margin-bottom: 1.4rem;
+}
+
+.section-kicker h2 {
+  margin-bottom: 0;
+}
+
+.section-kicker .lede {
+  margin: 0;
+}
+
+.section-hero {
+  min-height: auto;
+  padding-top: 4.2rem;
+  padding-bottom: 3rem;
+}
+
+.hero-copy {
+  max-width: 720px;
+  padding-top: 0;
+}
+
+.hero-title {
+  max-width: 880px;
+  margin-bottom: 0.95rem;
+  font-size: clamp(2.2rem, 3.25vw, 3.35rem);
+  line-height: 1.12;
+}
+
+.hero-sub {
+  max-width: 640px;
+  margin-bottom: 1.35rem;
+}
+
+.comparison {
+  max-width: 900px;
+  margin-top: 1.05rem;
+  margin-bottom: 1.1rem;
+}
+
+.card {
+  padding: 1rem 1.15rem;
+}
+
+.card-num {
+  font-size: clamp(3.25rem, 5vw, 4.05rem);
+}
+
+.hero-callout {
+  max-width: 760px;
+  margin: 1rem 0 1rem;
+  padding: 0.85rem 1.05rem;
+}
+
+.paper-visual {
+  max-width: 860px;
+  aspect-ratio: 21 / 6.8;
+  margin: 0.85rem 0 0.75rem;
+}
+
+.papers-strip {
+  margin-top: 0.9rem;
+}
+
+.paper-tile {
+  height: 68px;
+}
+
+.section-quickstart {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(238, 243, 244, 0.72));
+}
+
+.quickstart-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1.2rem 0;
+}
+
+.quick-card,
+.quick-brief,
+.stop-rules,
+.traceability-panel {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(24, 58, 90, 0.12);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+}
+
+.quick-card {
+  min-height: 230px;
+  padding: 1.05rem;
+  border-top: 4px solid var(--ink-blue-light);
+}
+
+.quick-card:nth-child(2) { border-top-color: var(--color-evidence); }
+.quick-card:nth-child(3) { border-top-color: var(--color-purple); }
+.quick-card:nth-child(4) { border-top-color: var(--color-gap); }
+.quick-card:nth-child(5) { border-top-color: var(--ink-blue); }
+
+.quick-card span {
+  width: 2.15rem;
+  height: 2.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+  background: #e3f2f4;
+  color: var(--ink-blue);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+.quick-card h3,
+.quick-brief h3,
+.stop-rules h3,
+.trace-copy h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.22rem;
+}
+
+.quick-card p,
+.quick-brief p,
+.trace-copy p {
+  margin: 0;
+  color: var(--charcoal);
+}
+
+.quick-card code {
+  display: inline-block;
+  margin-top: 0.8rem;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.quick-brief {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.34fr) minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.2rem;
+  margin-top: 1rem;
+}
+
+.quick-brief pre {
+  margin: 0;
+  background: #0d1720;
+  color: #e7f1ef;
+  border: 1px solid rgba(24, 58, 90, 0.2);
+  border-left: 4px solid #2b95a6;
+  border-radius: 8px;
+  padding: 1rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.58;
+}
+
+.quick-brief .copy-btn {
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.stop-rules {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.3fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  margin-top: 1rem;
+  padding: 1.2rem;
+  border-left: 4px solid var(--color-gap);
+}
+
+.stop-rules ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 1rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--dark-warm);
+}
+
+.stop-rules li {
+  padding-left: 0.1rem;
+}
+
+.traceability-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.32fr) minmax(0, 1fr);
+  gap: 1.2rem;
+  align-items: start;
+  margin-top: 1.3rem;
+  padding: 1.2rem;
+}
+
+.trace-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.trace-grid div {
+  min-height: 118px;
+  padding: 0.75rem;
+  background: #f8fbfb;
+  border: 1px solid rgba(24, 58, 90, 0.1);
+  border-top: 4px solid var(--ink-blue-light);
+  border-radius: 8px;
+}
+
+.trace-grid div:nth-child(4) {
+  border-top-color: var(--color-purple);
+}
+
+.trace-grid div:nth-child(7) {
+  border-top-color: var(--color-gap);
+}
+
+.trace-grid b {
+  display: block;
+  color: var(--ink-blue);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+}
+
+.trace-grid span {
+  color: var(--charcoal);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1180px) {
+  .quickstart-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .trace-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 920px) {
+  .section-kicker,
+  .quick-brief,
+  .stop-rules,
+  .traceability-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .quickstart-grid,
+  .trace-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .quick-brief .copy-btn {
+    justify-self: start;
+  }
+
+  .stop-rules ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav-inner {
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .section-hero {
+    padding-top: 3.4rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.15rem, 11vw, 2.85rem);
+  }
+
+  .hero-sub {
+    margin-bottom: 1.1rem;
+  }
+
+  .card {
+    padding: 0.95rem 1rem;
+  }
+
+  .card-num {
+    font-size: 3rem;
+  }
+
+  .paper-tile {
+    height: 76px;
+  }
+
+  .quickstart-grid,
+  .trace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-card {
+    min-height: auto;
+  }
+
+  .quick-brief,
+  .stop-rules,
+  .traceability-panel {
+    padding: 1rem;
+  }
+}

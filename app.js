@@ -695,6 +695,17 @@
   }
 
   // ============================================================
+  // 13. STATIC COPY BUTTONS
+  // ============================================================
+  function initStaticCopyButtons() {
+    document.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-copy]');
+      if (!btn) return;
+      copyToClipboard(btn.getAttribute('data-copy') || '');
+    });
+  }
+
+  // ============================================================
   // boot
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -710,5 +721,6 @@
     initSessionProtocol();
     initCookbook();
     initChecklist();
+    initStaticCopyButtons();
   });
 })();

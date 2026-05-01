@@ -16,6 +16,7 @@
 <meta name="twitter:title" content="Vibe Research with Claude Code & Codex" />
 <meta name="twitter:description" content="Jin Lei 的交互式 Vibe Research 入门：从 Vibe Coding 到可验证的科研生产流程。" />
 <meta name="twitter:image" content="assets/hero-research-workstation.webp" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f6f4'/%3E%3Cpath d='M8 9l8 14 8-14' fill='none' stroke='%23183a5a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,21 +29,12 @@
   <div class="nav-inner">
     <a class="brand" href="#top">Vibe Research <span class="brand-dot">·</span> Claude Code + Codex</a>
     <div class="nav-links">
-      <a href="#hero">对照</a>
-      <a href="#philosophy">瓶颈</a>
-      <a href="#paradigm">范式</a>
-      <a href="#codex">Codex</a>
-      <a href="#onramp">入门</a>
-      <a href="#workflow">流程</a>
+      <a href="#philosophy">理念</a>
+      <a href="#quickstart">入门</a>
       <a href="#validation">验证</a>
       <a href="#terminal">演示</a>
-      <a href="#production">集群</a>
-      <a href="#failure">陷阱</a>
-      <a href="#skills">武器库</a>
-      <a href="#paperflow">写作</a>
-      <a href="#cookbook">Prompt 模板</a>
-      <a href="#session">启动</a>
-      <a href="#checklist">自检</a>
+      <a href="#skills">工具</a>
+      <a href="#session">模板</a>
     </div>
   </div>
 </nav>
@@ -146,6 +138,87 @@
   </div>
 </section>
 
+<!-- ===================== QUICKSTART ===================== -->
+<section id="quickstart" class="section section-quickstart">
+  <div class="container">
+    <div class="section-kicker">
+      <div>
+        <div class="eyebrow">First 10 minutes</div>
+        <h2>第一次打开 Claude Code，只做这五步</h2>
+      </div>
+      <p class="lede">
+        初学者最容易犯的错，是一上来让 agent 接管整个研究问题。第一次会话只应该做一次可验收的试跑：
+        让它读真实项目、定位一个小任务、生成一个可检查输出，然后停下来由你判断。
+      </p>
+    </div>
+
+    <div class="quickstart-grid">
+      <article class="quick-card">
+        <span>01</span>
+        <h3>进真实项目目录</h3>
+        <p>不要在空聊天里描述项目。先让 agent 看见代码、数据、README、旧图和日志。</p>
+        <code>cd &lt;project&gt; && claude</code>
+      </article>
+      <article class="quick-card">
+        <span>02</span>
+        <h3>只给一个小目标</h3>
+        <p>目标必须能在 10 分钟内验收，例如重画一张图、补一个 smoke test、解释一个报错。</p>
+      </article>
+      <article class="quick-card">
+        <span>03</span>
+        <h3>先读，不许先改</h3>
+        <p>让它先总结现状、入口、数据路径、风险点。没有读到文件之前，不接受实现方案。</p>
+      </article>
+      <article class="quick-card">
+        <span>04</span>
+        <h3>给 benchmark</h3>
+        <p>哪怕只是一个旧数值、一张文献图、一个解析极限，也要先把通过标准写出来。</p>
+      </article>
+      <article class="quick-card">
+        <span>05</span>
+        <h3>结果出来就停</h3>
+        <p>第一次会话的目标不是继续扩展，而是确认这个工作流是否能被你审查和控制。</p>
+      </article>
+    </div>
+
+    <div class="quick-brief">
+      <div>
+        <div class="eyebrow">Starter brief</div>
+        <h3>10 分钟试跑模板</h3>
+        <p>
+          把第一次会话压到最小：只读项目、选一个小输出、跑一个验证。这个模板的重点是让 agent 停在你能检查的地方。
+        </p>
+      </div>
+      <pre>今天只做一个 10 分钟试跑。
+
+目标：&lt;one small output&gt;
+允许改：&lt;one file or no files&gt;
+验证：&lt;one command / one figure / one number&gt;
+停止条件：输出结果后停下来，不要继续扩展。
+
+请先只读相关文件，回答：
+1. 你看到的项目入口是什么
+2. 这个小目标最可能涉及哪些文件
+3. 最小验证怎么做
+4. 如果你不确定，请列出需要我确认的问题</pre>
+      <button class="copy-btn" data-copy="今天只做一个 10 分钟试跑。&#10;&#10;目标：&lt;one small output&gt;&#10;允许改：&lt;one file or no files&gt;&#10;验证：&lt;one command / one figure / one number&gt;&#10;停止条件：输出结果后停下来，不要继续扩展。&#10;&#10;请先只读相关文件，回答：&#10;1. 你看到的项目入口是什么&#10;2. 这个小目标最可能涉及哪些文件&#10;3. 最小验证怎么做&#10;4. 如果你不确定，请列出需要我确认的问题">复制 10 分钟 brief</button>
+    </div>
+
+    <div class="stop-rules">
+      <div>
+        <div class="eyebrow">Stop rules</div>
+        <h3>这些情况不要让 AI 自由发挥</h3>
+      </div>
+      <ul>
+        <li>你还说不清 benchmark、单位、相位、归一化或边界条件。</li>
+        <li>输出会进入论文主 claim，但还没有独立参考或 worst-case 检查。</li>
+        <li>agent 连续两轮偏离你的具体指令，开始自创另一套实现。</li>
+        <li>结果“看起来合理”，但你还不能解释为什么物理上应该这样。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== PARADIGM ===================== -->
 <section id="paradigm" class="section section-alt">
   <div class="container">
@@ -242,7 +315,7 @@
         <div class="eyebrow">Tool choice</div>
         <h2>Claude Code 和 Codex 怎么选</h2>
         <p class="lede">
-          这两个工具不是谁替代谁，而是适合不同形态的工作。Claude Code 更像一个贴着 Claude 生态的终端研究助手；
+          截至 2026 年 5 月，我自己的用法是：这两个工具不是谁替代谁，而是适合不同形态的工作。Claude Code 更像一个贴着 Claude 生态的终端研究助手；
           Codex 更像 OpenAI 生态里的工程 agent 平台，尤其适合并行 coding、页面构建和需要图像生成的工作流。
         </p>
       </div>
@@ -552,6 +625,26 @@
     </div>
 
     <div class="validation-grid" id="validation-grid"></div>
+
+    <div class="traceability-panel">
+      <div class="trace-copy">
+        <div class="eyebrow">Claim to reproducibility</div>
+        <h3>每个结论都要能追到一条复现链</h3>
+        <p>
+          AI 加速以后，真正该保存的不是“它写过什么”，而是每个物理结论背后的证据链。
+          论文里越强的句子，越应该能一路追到脚本、配置、commit 和失败条件。
+        </p>
+      </div>
+      <div class="trace-grid" aria-label="claim to reproducibility chain">
+        <div><b>Claim</b><span>这句话到底断言了什么</span></div>
+        <div><b>Evidence</b><span>哪张图 / 哪个表支撑它</span></div>
+        <div><b>Script</b><span>哪个脚本生成这个结果</span></div>
+        <div><b>Config</b><span>物理参数、单位、边界条件在哪里</span></div>
+        <div><b>Commit</b><span>代码 hash 和环境是否锁定</span></div>
+        <div><b>Benchmark</b><span>解析极限 / 旧代码 / 文献值是否通过</span></div>
+        <div><b>Failure</b><span>什么结果会迫使你降级 claim</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
